@@ -10,10 +10,15 @@ namespace MultiplyMatrices
             var col1Row2 = ReadDimension("Enter first matrix column and second matrix row count: ");
             var col2 = ReadDimension("Enter second matrix col count: ");
 
+            Console.WriteLine("Enter first matrix values: ");
             var matrix1 = ReadMatrix(col1Row2, row1);
+            Console.WriteLine("Enter second matrix values: ");
             var matrix2 = ReadMatrix(col2, col1Row2);
 
             var matrix = Multiply(matrix1, matrix2, row1, col1Row2, col2);
+
+            Console.WriteLine("Result: ");
+            PrintMatrix(matrix, col2, row1);
 
             Console.WriteLine("Hello World!");
         }
@@ -28,9 +33,9 @@ namespace MultiplyMatrices
         {
             var matrix = new int[cols, rows];
 
-            for (int col = 0; col < cols; col++)
+            for (int row = 0; row < rows; row++)
             {
-                for (int row = 0; row < rows; row++)
+                for (int col = 0; col < cols; col++)
                 {
                     matrix[col, row] = ReadDimension($"Enter {col + 1} column and {row + 1} row value: ");
                 }
@@ -47,16 +52,30 @@ namespace MultiplyMatrices
             {
                 for (int col2 = 0; col2 < cols2; col2++)
                 {
-                    var mult = 0;
+                    var result = 0;
                     for (int col1Row2 = 0; col1Row2 < cols1Rows2; col1Row2++)
                     {
-                        mult += matrix1[col1Row2, row1] * matrix2[col2, col1Row2];
+                        var mult = matrix1[col1Row2, row1] * matrix2[col2, col1Row2];
+                        result += mult;
                     }
-                    matrix[col2, row1] = mult;
+                    matrix[col2, row1] = result;
                 }
             }
 
             return matrix;
+        }
+
+        public static void PrintMatrix(int[,] matrix, int rows, int cols)
+        {
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    Console.Write($"{matrix[col, row]} ");
+                }
+
+                Console.WriteLine();
+            }
         }
     }
 }
