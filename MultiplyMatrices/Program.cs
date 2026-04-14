@@ -15,10 +15,16 @@ namespace MultiplyMatrices
             Console.WriteLine("Enter second matrix values: ");
             var matrix2 = ReadMatrix(col2, col1Row2);
 
-            var matrix = Multiply(matrix1, matrix2, row1, col1Row2, col2);
+            var matrix = Multiply(matrix1, matrix2);
+
+            if (matrix == null)
+            {
+                Console.WriteLine("Could not multiply matrices");
+                return;
+            }
 
             Console.WriteLine("Result: ");
-            PrintMatrix(matrix, col2, row1);
+            PrintMatrix(matrix);
 
             Console.WriteLine("Hello World!");
         }
@@ -44,8 +50,18 @@ namespace MultiplyMatrices
             return matrix;
         }
 
-        public static int[,] Multiply(int[,] matrix1, int[,] matrix2, int rows1, int cols1Rows2, int cols2)
+        public static int[,] Multiply(int[,] matrix1, int[,] matrix2)
         {
+            if (matrix1 == null || matrix2 == null)
+                return null;
+
+            var rows1 = matrix1.GetLength(1);
+            var cols1Rows2 = matrix1.GetLength(0);
+            var cols2 = matrix2.GetLength(0);
+
+            if (cols1Rows2 != matrix2.GetLength(1))
+                return null;
+
             var matrix = new int[cols2, rows1];
 
             for (int row1 = 0; row1 < rows1; row1++)
@@ -65,8 +81,11 @@ namespace MultiplyMatrices
             return matrix;
         }
 
-        public static void PrintMatrix(int[,] matrix, int rows, int cols)
+        public static void PrintMatrix(int[,] matrix)
         {
+            var rows = matrix.GetLength(0);
+            var cols = matrix.GetLength(1);
+
             for (int row = 0; row < rows; row++)
             {
                 for (int col = 0; col < cols; col++)
